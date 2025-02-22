@@ -1,7 +1,7 @@
 package testen;
 
+import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
 
@@ -13,70 +13,101 @@ class ComputerPartsTest {
 
 	@Test
 	void addTest() {
-		assertEquals(20, computerPart.add(10, 10));
-		assertEquals(182, computerPart.add(27, 155));
-		assertEquals(123, computerPart.add(55, 68));
+		assertEquals("00010100", computerPart.add(10, 10));
+		assertEquals("10110110", computerPart.add(27, 155));
+		assertEquals("01111011", computerPart.add(55, 68));
 	}
 
 	@Test
 	void subtractionTest() {
-		assertEquals(0, computerPart.subtract(10, 10));
-		assertEquals(-128, computerPart.subtract(27, 155));
-		assertEquals(-13, computerPart.subtract(55, 68));
+		assertEquals("00000000", computerPart.subtract(10, 10));
+		assertEquals("10100001", computerPart.subtract(27, 122));
+		assertEquals("11110011", computerPart.subtract(55, 68));
 	}
 
 	@Test
 	void andGateTest() {
-		assertEquals("11111111", computerPart.andGate("11111111", "11111111"));
-		assertEquals("10000000", computerPart.andGate("11000011", "10000000"));
-		assertEquals("00011011", computerPart.andGate("11011111", "00111011"));
-		assertEquals("00000000", computerPart.andGate("00000000", "11111111"));
-		assertEquals("11111111", computerPart.andGate("11111111", "11111111"));
+		assertEquals("11111111", computerPart.andGate(255, 255));
+		assertEquals("10000000", computerPart.andGate(195, 128));
+		assertEquals("00011011", computerPart.andGate(223, 59));
+		assertEquals("00000000", computerPart.andGate(0, 255));
+		assertEquals("11111111", computerPart.andGate(255, 255));
 	}
 
 	@Test
 	void orGateTest() {
-		assertEquals("11111111", computerPart.orGate("00001111", "11110000"));
-		assertEquals("11111101", computerPart.orGate("11100000", "11111101"));
-		assertEquals("11111111", computerPart.orGate("11111111", "01010101"));
-		assertEquals("11111111", computerPart.orGate("00000000", "11111111"));
-		assertEquals("11111111", computerPart.orGate("11111111", "11111111"));
+		assertEquals("11111111", computerPart.orGate(15, 240));
+		assertEquals("11111101", computerPart.orGate(192, 253));
+		assertEquals("11111111", computerPart.orGate(255, 85));
+		assertEquals("11111111", computerPart.orGate(0, 255));
+		assertEquals("11111111", computerPart.orGate(255, 255));
 	}
 
 	@Test
 	void notGateTest() {
-		assertEquals("10111000", computerPart.notGate("01000111"));
-		assertEquals("11110010", computerPart.notGate("00001101"));
-		assertEquals("00101100", computerPart.notGate("11010011"));
-		assertEquals("11111111", computerPart.notGate("00000000"));
-		assertEquals("00000000", computerPart.notGate("11111111"));
+		assertEquals("11011000", computerPart.notGate(39));
+		assertEquals("11110010", computerPart.notGate(13));
+		assertEquals("00101100", computerPart.notGate(211));
+		assertEquals("11111111", computerPart.notGate(0));
+		assertEquals("00000000", computerPart.notGate(255));
 	}
 
 	@Test
 	void xorGateTest() {
-		assertEquals("11110000", computerPart.xorGate("11111111", "00001111"));
-		assertEquals("01111101", computerPart.xorGate("11100000", "10011101"));
-		assertEquals("10101010", computerPart.xorGate("11111111", "01010101"));
-		assertEquals("11111111", computerPart.xorGate("11111111", "00000000"));
-		assertEquals("00000000", computerPart.xorGate("11111111", "11111111"));
+		assertEquals("11110000", computerPart.xorGate(255, 15));
+		assertEquals("01011101", computerPart.xorGate(192, 157));
+		assertEquals("10101010", computerPart.xorGate(255, 85));
+		assertEquals("11111111", computerPart.xorGate(255, 0));
+		assertEquals("00000000", computerPart.xorGate(255, 255));
 	}
 
 	@Test
 	void rightShiftTest() {
-		assertEquals("00000000", computerPart.rightShift("11111111", 8));
-		assertEquals("00000001", computerPart.rightShift("11111111", 7));
-		assertEquals("00011111", computerPart.rightShift("11111111", 3));
-		assertEquals("01100000", computerPart.rightShift("11000000", 1));
+		assertEquals("00000000", computerPart.rightShift(255, 8));
+		assertEquals("00000001", computerPart.rightShift(255, 7));
+		assertEquals("00000000", computerPart.rightShift(0, 3));
+		assertEquals("01100000", computerPart.rightShift(192, 1));
 	}
 
 	@Test
-	void invalidInputTest() {
-		assertThrows(IllegalArgumentException.class, () -> computerPart.andGate("110", "10101010"));
-		assertThrows(IllegalArgumentException.class, () -> computerPart.orGate("111100001", "00001111"));
-		assertThrows(IllegalArgumentException.class, () -> computerPart.xorGate("abcdefgh", "01010101"));
-		assertThrows(IllegalArgumentException.class, () -> computerPart.notGate("10101"));
-		assertThrows(IllegalArgumentException.class, () -> computerPart.notGate("ABCDEFGH"));
-		assertThrows(IllegalArgumentException.class, () -> computerPart.andGate(null, "10101010"));
-		assertThrows(IllegalArgumentException.class, () -> computerPart.orGate("", "10101010"));
+	public void testAddInvalidInput() {
+		assertThrows(IllegalArgumentException.class, () -> computerPart.add(-1, 10));
+		assertThrows(IllegalArgumentException.class, () -> computerPart.add(10, 256));
+	}
+
+	@Test
+	public void testSubtractInvalidInput() {
+		assertThrows(IllegalArgumentException.class, () -> computerPart.subtract(-333, 10));
+		assertThrows(IllegalArgumentException.class, () -> computerPart.subtract(10, 256));
+	}
+
+	@Test
+	public void testAndGateInvalidInput() {
+		assertThrows(IllegalArgumentException.class, () -> computerPart.andGate(-1, 10));
+		assertThrows(IllegalArgumentException.class, () -> computerPart.andGate(10, 256));
+	}
+
+	@Test
+	public void testOrGateInvalidInput() {
+		assertThrows(IllegalArgumentException.class, () -> computerPart.orGate(-1, 10));
+		assertThrows(IllegalArgumentException.class, () -> computerPart.orGate(10, 256));
+	}
+
+	@Test
+	public void testXorGateInvalidInput() {
+		assertThrows(IllegalArgumentException.class, () -> computerPart.xorGate(-1, 10));
+		assertThrows(IllegalArgumentException.class, () -> computerPart.xorGate(10, 256));
+	}
+
+	@Test
+	public void testNotGateInvalidInput() {
+		assertThrows(IllegalArgumentException.class, () -> computerPart.notGate(-1));
+		assertThrows(IllegalArgumentException.class, () -> computerPart.notGate(256));
+	}
+
+	@Test
+	public void testRightShiftInvalidInput() {
+		assertThrows(IllegalArgumentException.class, () -> computerPart.rightShift(1, -3));
+		assertThrows(IllegalArgumentException.class, () -> computerPart.rightShift(256, 4));
 	}
 }

@@ -1,3 +1,7 @@
 /BinaryFunctions.class
 /ComputerParts.class
 /LogicParts.class
+/CompareParts.class
+/LogicParts$DecimalToBinary.class
+/LogicParts$decimalToBinary.class
+/LogicParts$BinaryToDecimal.class

@@ -2,44 +2,61 @@ package domein;
 
 public class LogicParts {
 
-	public int add(int num1, int num2) {
-		return num1 + num2;
+	public String add(int num1, int num2) {
+		validateUnsignedInput(num1, num2);
+		return decimalToBinary(num1 + num2);
 	}
 
-	public int subtract(int num1, int num2) {
-		return num1 - num2;
+	public String subtract(int num1, int num2) {
+		if (num1 > -128 && num1 < 127 && num2 > -128 && num2 < 127) {
+			return decimalToBinary(num1 - num2);
+		} else {
+			throw new IllegalArgumentException("Nummer moet tussen -128 en 127 bevinden");
+		}
 	}
 
-	public String andGate(String num1, String num2) {
-		validateBinaryInput(num1, num2);
+	public String andGate(int num1, int num2) {
+		validateUnsignedInput(num1, num2);
 		return applyLogicGate(num1, num2, '&');
 	}
 
-	public String orGate(String num1, String num2) {
-		validateBinaryInput(num1, num2);
+	public String orGate(int num1, int num2) {
+		validateUnsignedInput(num1, num2);
 		return applyLogicGate(num1, num2, '|');
 	}
 
-	public String xorGate(String num1, String num2) {
-		validateBinaryInput(num1, num2);
+	public String xorGate(int num1, int num2) {
+		validateUnsignedInput(num1, num2);
 		return applyLogicGate(num1, num2, '^');
 	}
 
-	public String notGate(String num) {
-		validateBinaryInput(num);
-		return applyLogicGate(num, null, '!');
+	public String notGate(int num) {
+		validateUnsignedInput(num);
+		return applyLogicGate(num, 0, '!');
 	}
 
-	public String rightShift(String num, int positions) {
-		validateBinaryInput(num);
-		return "0".repeat(positions) + num.substring(0, num.length() - positions);
+	public String rightShift(int num, int positions) {
+		if (positions < 0) {
+			throw new IllegalArgumentException("Right shift pos mag niet negatief zijn");
+		}
+		validateUnsignedInput(num);
+		int shifted = num >> positions;
+		String binaryString = Integer.toBinaryString(shifted);
+		while (binaryString.length() < 8) {
+			binaryString = "0" + binaryString;
+		}
+		return binaryString;
 	}
 
-	private String applyLogicGate(String num1, String num2, char operation) {
+	private String applyLogicGate(int num1, int num2, char operation) {
+		validateUnsignedInput(num1, num2);
+		String binNum1 = decimalToBinary(num1);
+		String binNum2 = decimalToBinary(num2);
+
 		StringBuilder result = new StringBuilder(8);
 		for (int i = 0; i < 8; i++) {
-			char bit1 = num1.charAt(i);
-			char bit2 = (num2 != null) ? num2.charAt(i) : '0';
+			char bit1 = binNum1.charAt(i);
+			char bit2 = binNum2.charAt(i);
 			switch (operation) {
 			case '&' -> result.append((bit1 == '1' && bit2 == '1') ? '1' : '0');
 			case '|' -> result.append((bit1 == '1' || bit2 == '1') ? '1' : '0');
@@ -51,11 +68,25 @@ public class LogicParts {
 		return result.toString();
 	}
 
-	private void validateBinaryInput(String... nums) {
-		for (String num : nums) {
-			if (num == null || !num.matches("[01]{8}")) {
-				throw new IllegalArgumentException("Ongeldige input");
+	private void validateUnsignedInput(int... nums) {
+		for (int num : nums) {
+			if (num < 0 || num > 255) {
+				throw new IllegalArgumentException("Ongeldige input: getal moet tussen 0 en 255 liggen");
 			}
 		}
+	}
+
+	static String decimalToBinary(int num) {
+		if (num < 0) {
+			num += 256;
+		}
+		return String.format("%8s", Integer.toBinaryString(num)).replace(' ', '0');
+	}
+
+	public static int convertBinaryToDecimal(String binaryString) {
+		while (binaryString.length() < 8) {
+			binaryString = "0" + binaryString;
+		}
+		return Integer.parseInt(binaryString, 2);
 	}
 }
