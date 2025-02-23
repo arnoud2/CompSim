@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import domein.LogicParts;
 
-class ComputerPartsTest {
+class LogicPartsTest {
 
     private LogicParts computerPart = new LogicParts();
 
