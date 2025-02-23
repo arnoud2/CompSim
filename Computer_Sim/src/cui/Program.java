@@ -4,10 +4,20 @@ import domein.Domein;
 
 public class Program {
 
-    private Domein dc = new Domein();
+    private Domein dc;
+
+    public Program(Domein domein) {
+        this.dc = domein;
+    }
 
     public void startUp() {
-        int[] code = { 1, 1, 2, 3};
+        int[] code = 
+        	{
+        	14, 1, 0, 10,
+        	14, 2, 0, 5,
+        	1, 1, 2, 3
+        	};
+        
         int pc = 0;
 
         while (pc < code.length) {
@@ -19,16 +29,20 @@ public class Program {
             if (opcode < 8) {
                 dc.runLineOfCodeLogic(opcode, regA, regB, regC);
                 pc += 4;
-            } 
-            else if(opcode < 14){
+            } else if (opcode < 14) {
                 int jump = dc.runLineOfCodeJump(opcode, regA, regB);
-                pc = (jump != -1) ? jump : (pc + 4); 
+                pc = (jump != -1) ? jump : (pc + 4);
             }
-            if (opcode == 14)
-            	dc.ldi(regA, regB, regC);
-            
-            if (opcode == 15)
-            	dc.pack(regA, regB);
+            if (opcode == 14) {
+                dc.ldi(regA, regB, regC);
+            	pc += 4;
+            }
+            if (opcode == 15) {
+                dc.pack(regA, regB);
+            	pc += 4;
+            }
         }
+
+        dc.printReg();
     }
 }

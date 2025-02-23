@@ -8,6 +8,8 @@ public class Domein {
     private SpecialFunctions sf = new SpecialFunctions();
     
     public void runLineOfCodeLogic(int opcode, int regA, int regB, int regC) {
+    	regA = reg.getRegister(regA);
+    	regB = reg.getRegister(regB);
         int result;
         switch (opcode) {
             case 1: result = lp.add(regA, regB); break;
@@ -23,6 +25,8 @@ public class Domein {
     }
 
     public int runLineOfCodeJump(int opcode, int regA, int regB) {
+    	regA = reg.getRegister(regA);
+    	regB = reg.getRegister(regB);
     	boolean result;
         switch (opcode) {
             case 8: result = cp.equal(regA, regB); break;
@@ -41,11 +45,15 @@ public class Domein {
     
     public void ldi(int regA, int regB, int regC) {
     	int immediate = sf.immediate(regB, regC);
-    	reg.setRegister(regA, immediate);
+    	reg.setRegister(immediate, regA);
     }
     
     public void pack (int regA, int regB) {
-    	reg.setRegister(regA, reg.getRegister(regB));
+    	reg.setRegister(reg.getRegister(regB), regA);
     }
+    
+    public void printReg() {
+		reg.printRegisters();
+	}
     
 }
