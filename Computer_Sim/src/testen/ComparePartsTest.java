@@ -62,18 +62,18 @@ public class ComparePartsTest {
 
 	@Test
 	public void testGreaterThanTrue() {
-		assertTrue(compareParts.greaterThen(200, 100));
-		assertTrue(compareParts.greaterThen(255, 0));
-		assertTrue(compareParts.greaterThen(150, 100));
-		assertTrue(compareParts.greaterThen(250, 100));
+		assertTrue(compareParts.greaterThan(200, 100));
+		assertTrue(compareParts.greaterThan(255, 0));
+		assertTrue(compareParts.greaterThan(150, 100));
+		assertTrue(compareParts.greaterThan(250, 100));
 	}
 
 	@Test
 	public void testGreaterThanFalse() {
-		assertFalse(compareParts.greaterThen(100, 200));
-		assertFalse(compareParts.greaterThen(50, 100));
-		assertFalse(compareParts.greaterThen(0, 255));
-		assertFalse(compareParts.greaterThen(0, 0));
+		assertFalse(compareParts.greaterThan(100, 200));
+		assertFalse(compareParts.greaterThan(50, 100));
+		assertFalse(compareParts.greaterThan(0, 255));
+		assertFalse(compareParts.greaterThan(0, 0));
 	}
 
 	@Test
@@ -94,18 +94,18 @@ public class ComparePartsTest {
 
 	@Test
 	public void testLessThanTrue() {
-		assertTrue(compareParts.lessThen(100, 200));
-		assertTrue(compareParts.lessThen(0, 255));
-		assertTrue(compareParts.lessThen(50, 100));
-		assertTrue(compareParts.lessThen(10, 100));
+		assertTrue(compareParts.lessThan(100, 200));
+		assertTrue(compareParts.lessThan(0, 255));
+		assertTrue(compareParts.lessThan(50, 100));
+		assertTrue(compareParts.lessThan(10, 100));
 	}
 
 	@Test
 	public void testLessThanFalse() {
-		assertFalse(compareParts.lessThen(200, 100));
-		assertFalse(compareParts.lessThen(255, 0));
-		assertFalse(compareParts.lessThen(100, 50));
-		assertFalse(compareParts.lessThen(100, 100));
+		assertFalse(compareParts.lessThan(200, 100));
+		assertFalse(compareParts.lessThan(255, 0));
+		assertFalse(compareParts.lessThan(100, 50));
+		assertFalse(compareParts.lessThan(100, 100));
 	}
 
 	@Test
@@ -114,8 +114,8 @@ public class ComparePartsTest {
 		assertThrows(IllegalArgumentException.class, () -> compareParts.equal(-1, 100));
 		assertThrows(IllegalArgumentException.class, () -> compareParts.notEqual(300, 200));
 		assertThrows(IllegalArgumentException.class, () -> compareParts.lessOrEqual(100, 300));
-		assertThrows(IllegalArgumentException.class, () -> compareParts.greaterThen(100, 256));
+		assertThrows(IllegalArgumentException.class, () -> compareParts.greaterThan(100, 256));
 		assertThrows(IllegalArgumentException.class, () -> compareParts.greaterOrEqual(-1, 0));
-		assertThrows(IllegalArgumentException.class, () -> compareParts.lessThen(300, 200));
+		assertThrows(IllegalArgumentException.class, () -> compareParts.lessThan(300, 200));
 	}
 }

@@ -4,45 +4,32 @@ public class CompareParts {
 
 	public boolean equal(int num1, int num2) {
 		validateUnsignedInput(num1, num2);
-		if (num1 == num2) {
-			return true;
-		} else {
-			return false;
-		}
+		return num1 == num2;
 	}
 
 	public boolean notEqual(int num1, int num2) {
 		validateUnsignedInput(num1, num2);
-		return !equal(num1, num2);
+		return num1 != num2;
 	}
 
 	public boolean lessOrEqual(int num1, int num2) {
-		if (equal(num1, num2) || lessThen(num1, num2)) {
-			return true;
-		} else {
-			return false;
-		}
+		validateUnsignedInput(num1, num2);
+		return num1 <= num2;
 	}
 
-	public boolean greaterThen(int num1, int num2) {
-		return !lessOrEqual(num1, num2);
+	public boolean greaterThan(int num1, int num2) {
+		validateUnsignedInput(num1, num2);
+		return num1 > num2;
 	}
 
 	public boolean greaterOrEqual(int num1, int num2) {
-		if (greaterThen(num1, num2) || equal(num1, num2)) {
-			return true;
-		} else {
-			return false;
-		}
+		validateUnsignedInput(num1, num2);
+		return num1 >= num2;
 	}
 
-	public boolean lessThen(int num1, int num2) {
+	public boolean lessThan(int num1, int num2) {
 		validateUnsignedInput(num1, num2);
-		if (num1 < num2) {
-			return true;
-		} else {
-			return false;
-		}
+		return num1 < num2;
 	}
 
 	private void validateUnsignedInput(int... nums) {
