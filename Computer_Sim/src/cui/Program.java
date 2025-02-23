@@ -19,10 +19,16 @@ public class Program {
             if (opcode < 8) {
                 dc.runLineOfCodeLogic(opcode, regA, regB, regC);
                 pc += 4;
-            } else {
+            } 
+            else if(opcode < 14){
                 int jump = dc.runLineOfCodeJump(opcode, regA, regB);
                 pc = (jump != -1) ? jump : (pc + 4); 
             }
+            if (opcode == 14)
+            	dc.ldi(regA, regB, regC);
+            
+            if (opcode == 15)
+            	dc.pack(regA, regB);
         }
     }
 }

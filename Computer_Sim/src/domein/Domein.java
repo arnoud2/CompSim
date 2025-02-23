@@ -5,6 +5,7 @@ public class Domein {
     private LogicParts lp = new LogicParts();
     private CompareParts cp = new CompareParts();
     private Registers reg = new Registers();
+    private SpecialFunctions sf = new SpecialFunctions();
     
     public void runLineOfCodeLogic(int opcode, int regA, int regB, int regC) {
         int result;
@@ -37,4 +38,14 @@ public class Domein {
         else
         	return -1;
     }
+    
+    public void ldi(int regA, int regB, int regC) {
+    	int immediate = sf.immediate(regB, regC);
+    	reg.setRegister(regA, immediate);
+    }
+    
+    public void pack (int regA, int regB) {
+    	reg.setRegister(regA, reg.getRegister(regB));
+    }
+    
 }
