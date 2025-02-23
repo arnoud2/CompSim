@@ -4,6 +4,8 @@ public class Registers {
 	private int[] registers;
 
 	public Registers() {
+		// Reg15 is de input
+		// reg14 is de jump
 		registers = new int[16];
 	}
 
