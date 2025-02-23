@@ -2,40 +2,40 @@ package domein;
 
 public class LogicParts {
 
-	public String add(int num1, int num2) {
+	public int add(int num1, int num2) {
 		validateUnsignedInput(num1, num2);
-		return decimalToBinary(num1 + num2);
+		return num1 + num2;
 	}
 
-	public String subtract(int num1, int num2) {
+	public int subtract(int num1, int num2) {
 		if (num1 > -128 && num1 < 127 && num2 > -128 && num2 < 127) {
-			return decimalToBinary(num1 - num2);
+			return num1 - num2;
 		} else {
 			throw new IllegalArgumentException("Nummer moet tussen -128 en 127 bevinden");
 		}
 	}
 
-	public String andGate(int num1, int num2) {
+	public int andGate(int num1, int num2) {
 		validateUnsignedInput(num1, num2);
 		return applyLogicGate(num1, num2, '&');
 	}
 
-	public String orGate(int num1, int num2) {
+	public int orGate(int num1, int num2) {
 		validateUnsignedInput(num1, num2);
 		return applyLogicGate(num1, num2, '|');
 	}
 
-	public String xorGate(int num1, int num2) {
+	public int xorGate(int num1, int num2) {
 		validateUnsignedInput(num1, num2);
 		return applyLogicGate(num1, num2, '^');
 	}
 
-	public String notGate(int num) {
+	public int notGate(int num) {
 		validateUnsignedInput(num);
 		return applyLogicGate(num, 0, '!');
 	}
 
-	public String rightShift(int num, int positions) {
+	public int rightShift(int num, int positions) {
 		if (positions < 0) {
 			throw new IllegalArgumentException("Right shift pos mag niet negatief zijn");
 		}
@@ -45,10 +45,10 @@ public class LogicParts {
 		while (binaryString.length() < 8) {
 			binaryString = "0" + binaryString;
 		}
-		return binaryString;
+		return Integer.parseInt(binaryString, 2);
 	}
 
-	private String applyLogicGate(int num1, int num2, char operation) {
+	private int applyLogicGate(int num1, int num2, char operation) {
 		validateUnsignedInput(num1, num2);
 		String binNum1 = decimalToBinary(num1);
 		String binNum2 = decimalToBinary(num2);
@@ -65,7 +65,7 @@ public class LogicParts {
 			default -> throw new IllegalArgumentException("Ongeldige operatie");
 			}
 		}
-		return result.toString();
+		return Integer.parseInt(result.toString(), 2);
 	}
 
 	private void validateUnsignedInput(int... nums) {
@@ -81,12 +81,5 @@ public class LogicParts {
 			num += 256;
 		}
 		return String.format("%8s", Integer.toBinaryString(num)).replace(' ', '0');
-	}
-
-	public static int convertBinaryToDecimal(String binaryString) {
-		while (binaryString.length() < 8) {
-			binaryString = "0" + binaryString;
-		}
-		return Integer.parseInt(binaryString, 2);
 	}
 }
