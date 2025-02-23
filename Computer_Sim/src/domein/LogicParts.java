@@ -49,9 +49,8 @@ public class LogicParts {
 	}
 
 	private int applyLogicGate(int num1, int num2, char operation) {
-		validateUnsignedInput(num1, num2);
-		String binNum1 = decimalToBinary(num1);
-		String binNum2 = decimalToBinary(num2);
+		String binNum1 = String.format("%8s", Integer.toBinaryString(num1)).replace(' ', '0');
+		String binNum2 = String.format("%8s", Integer.toBinaryString(num2)).replace(' ', '0');
 
 		StringBuilder result = new StringBuilder(8);
 		for (int i = 0; i < 8; i++) {
@@ -74,12 +73,5 @@ public class LogicParts {
 				throw new IllegalArgumentException("Ongeldige input: getal moet tussen 0 en 255 liggen");
 			}
 		}
-	}
-
-	static String decimalToBinary(int num) {
-		if (num < 0) {
-			num += 256;
-		}
-		return String.format("%8s", Integer.toBinaryString(num)).replace(' ', '0');
 	}
 }
